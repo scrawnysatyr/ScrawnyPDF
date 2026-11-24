@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   ChevronDown,
   FilePlus2,
@@ -23,6 +23,7 @@ import {
   type PdfSettings,
 } from './types/pdf';
 import { formatBytes, generatePdf } from './utils/pdfGenerator';
+import { getPageSizeDisplay, TRANSLATIONS, type Language } from './i18n';
 
 function readImageDimensions(url: string): Promise<{ width: number; height: number }> {
   return new Promise((resolve) => {
@@ -34,6 +35,17 @@ function readImageDimensions(url: string): Promise<{ width: number; height: numb
 }
 
 export function App() {
+  const [lang, setLang] = useState<Language>(() => {
+    const saved = localStorage.getItem('scrawny-pdf-lang');
+    return saved === 'th' ? 'th' : 'en';
+  });
+  const t = TRANSLATIONS[lang];
+
+  useEffect(() => {
+    localStorage.setItem('scrawny-pdf-lang', lang);
+    document.documentElement.lang = lang;
+  }, [lang]);
+
   const [pages, setPages] = useState<PageItem[]>([]);
   const [settings, setSettings] = useState<PdfSettings>({
     pageSize: 'a4',
@@ -161,7 +173,7 @@ export function App() {
       setLastResult({ size, count: pages.length });
     } catch (err) {
       console.error('PDF generation failed:', err);
-      alert('เกิดข้อผิดพลาดในการสร้างไฟล์ PDF กรุณาลองใหม่อีกครั้ง');
+      alert(t.generateError);
     } finally {
       setIsGenerating(false);
     }
@@ -184,7 +196,7 @@ export function App() {
               Scrawny<span className="text-[#ff7300]">PDF</span>
             </h1>
             <p className="text-[11px] text-[#a1a1aa] mt-0.5">
-              แปลงรูปและไฟล์เป็น PDF • จัดลำดับหน้า &amp; บีบอัดในเบราว์เซอร์
+              {t.subtitle}
             </p>
           </div>
         </div>
@@ -193,24 +205,49 @@ export function App() {
           {pages.length > 0 && (
             <>
               <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-[rgba(255,115,0,0.14)] text-[#ff943d] border border-[rgba(255,115,0,0.3)]">
-                {pages.length} หน้า
+                {t.pageCount(pages.length)}
               </span>
               <button
+                type="button"
                 onClick={() => fileInputRef.current?.click()}
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#1c1c22] hover:bg-[#22222a] text-[#f4f4f5] text-xs font-medium transition cursor-pointer border border-[#2c2c36] hover:border-[#ff7300]"
               >
                 <FilePlus2 className="w-3.5 h-3.5 text-[#ff7300]" />
-                เพิ่มไฟล์
+                {t.addFiles}
               </button>
               <button
+                type="button"
                 onClick={clearAll}
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 text-xs font-medium transition cursor-pointer border border-rose-500/25"
               >
                 <Trash2 className="w-3.5 h-3.5" />
-                ล้างทั้งหมด
+                {t.clearAll}
               </button>
             </>
           )}
+
+          {/* Language Switcher */}
+          <div
+            role="group"
+            aria-label="Language"
+            className="flex items-center rounded-lg bg-[#141418] p-0.5 border border-[#2c2c36]"
+          >
+            {(['en', 'th'] as const).map((code) => (
+              <button
+                key={code}
+                type="button"
+                aria-pressed={lang === code}
+                onClick={() => setLang(code)}
+                className={`px-2.5 py-1 rounded-md text-[11px] font-bold uppercase transition cursor-pointer ${
+                  lang === code
+                    ? 'bg-[#ff7300] text-[#141418]'
+                    : 'text-[#a1a1aa] hover:text-white'
+                }`}
+              >
+                {code}
+              </button>
+            ))}
+          </div>
         </div>
       </header>
 
@@ -258,13 +295,13 @@ export function App() {
                   <UploadCloud className="w-8 h-8 text-[#ff7300]" />
                 </div>
                 <h2 className="text-lg font-semibold text-white mb-1.5">
-                  ลากไฟล์มาวางที่นี่ หรือคลิกเพื่อเลือกไฟล์
+                  {t.dropTitle}
                 </h2>
                 <p className="text-sm text-[#a1a1aa] max-w-md">
-                  รองรับไฟล์รูปภาพ (JPG, PNG, WebP, GIF, BMP) และไฟล์ PDF สามารถลากการ์ดเพื่อสลับลำดับหน้าได้
+                  {t.dropDesc}
                 </p>
                 <div className="mt-6 px-5 py-2.5 rounded-xl bg-[#ff7300] hover:bg-[#ff851f] text-[#141418] text-sm font-bold shadow-lg shadow-[#ff7300]/20 transition">
-                  เลือกไฟล์จากเครื่อง
+                  {t.chooseFiles}
                 </div>
               </div>
             </div>
@@ -310,7 +347,7 @@ export function App() {
                               e.stopPropagation();
                               rotatePage(page.id);
                             }}
-                            title="หมุนภาพ 90°"
+                            title={t.rotateTitle}
                             className="p-1.5 rounded-lg bg-[#141418]/90 hover:bg-[#ff7300] text-[#f4f4f5] hover:text-[#141418] border border-[#2c2c36] transition cursor-pointer"
                           >
                             <RotateCw className="w-3.5 h-3.5" />
@@ -322,7 +359,7 @@ export function App() {
                             e.stopPropagation();
                             removePage(page.id);
                           }}
-                          title="ลบหน้านี้"
+                          title={t.deleteTitle}
                           className="p-1.5 rounded-lg bg-[#141418]/90 hover:bg-rose-600 text-[#f4f4f5] hover:text-white border border-[#2c2c36] transition cursor-pointer"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
@@ -372,7 +409,7 @@ export function App() {
                   className="aspect-[3/4] rounded-2xl border-2 border-dashed border-[#2c2c36] hover:border-[#ff7300]/70 bg-[#1c1c22]/40 hover:bg-[#1c1c22]/80 flex flex-col items-center justify-center gap-2 text-[#a1a1aa] hover:text-[#ff7300] transition cursor-pointer"
                 >
                   <FilePlus2 className="w-7 h-7" />
-                  <span className="text-xs font-medium">เพิ่มไฟล์</span>
+                  <span className="text-xs font-medium">{t.addFiles}</span>
                 </button>
               </div>
             </div>
@@ -382,7 +419,7 @@ export function App() {
           {isDraggingFiles && pages.length > 0 && (
             <div className="absolute inset-0 z-20 bg-[#141418]/80 backdrop-blur-sm border-2 border-dashed border-[#ff7300] m-3 rounded-2xl flex flex-col items-center justify-center pointer-events-none">
               <UploadCloud className="w-12 h-12 text-[#ff7300] mb-2" />
-              <p className="text-base font-semibold text-white">วางไฟล์เพื่อเพิ่มหน้าใหม่</p>
+              <p className="text-base font-semibold text-white">{t.dropOverlay}</p>
             </div>
           )}
         </section>
@@ -393,10 +430,10 @@ export function App() {
             {/* Page Orientation */}
             <fieldset className="space-y-2 border-0 p-0 m-0" disabled={settings.pageSize === 'fit'}>
               <legend className="text-xs font-semibold text-[#a1a1aa] uppercase tracking-wider flex items-center justify-between w-full">
-                <span>แนวกระดาษ (Orientation)</span>
+                <span>{t.orientationLabel}</span>
                 {settings.pageSize === 'fit' && (
                   <span className="text-[10px] font-normal normal-case text-[#71717a]">
-                    ตามขนาดภาพ
+                    {t.orientationFitHint}
                   </span>
                 )}
               </legend>
@@ -435,7 +472,7 @@ export function App() {
                         }`}
                       />
                       <span className="text-xs font-semibold leading-none">
-                        {ori === 'portrait' ? 'แนวตั้ง (Portrait)' : 'แนวนอน (Landscape)'}
+                        {ori === 'portrait' ? t.portrait : t.landscape}
                       </span>
                     </label>
                   );
@@ -449,7 +486,7 @@ export function App() {
                 htmlFor="page-size-select"
                 className="block text-xs font-semibold text-[#a1a1aa] uppercase tracking-wider"
               >
-                ขนาดหน้ากระดาษ (Page size)
+                {t.pageSizeLabel}
               </label>
               <div className="relative">
                 <select
@@ -463,7 +500,7 @@ export function App() {
                 >
                   {PAGE_SIZE_OPTIONS.map((opt) => (
                     <option key={opt.id} value={opt.id}>
-                      {opt.label} ({opt.desc})
+                      {getPageSizeDisplay(opt.id, opt.label, opt.desc, t)}
                     </option>
                   ))}
                 </select>
@@ -477,7 +514,7 @@ export function App() {
             {/* Margin */}
             <fieldset className="space-y-2 border-0 p-0 m-0">
               <legend className="text-xs font-semibold text-[#a1a1aa] uppercase tracking-wider">
-                ขอบกระดาษ (Margin)
+                {t.marginLabel}
               </legend>
               <div className="grid grid-cols-4 gap-2">
                 {MARGIN_OPTIONS.map((m) => {
@@ -488,16 +525,11 @@ export function App() {
                     medium: 'p-1.5',
                     large: 'p-2',
                   };
-                  const shortLabel: Record<MarginOption, string> = {
-                    none: 'ไม่มี',
-                    small: 'เล็ก',
-                    medium: 'กลาง',
-                    large: 'ใหญ่',
-                  };
+                  const marginText = t.margins[m.id];
                   return (
                     <label
                       key={m.id}
-                      title={m.label}
+                      title={marginText.title}
                       className={`relative flex flex-col items-center justify-center gap-2 py-2.5 px-1 rounded-xl border transition cursor-pointer select-none ${
                         isSelected
                           ? 'bg-[rgba(255,115,0,0.12)] border-[#ff7300] text-white'
@@ -533,7 +565,7 @@ export function App() {
                         </span>
                       </span>
                       <span className="text-[11px] font-semibold leading-none">
-                        {shortLabel[m.id]}
+                        {marginText.short}
                       </span>
                     </label>
                   );
@@ -545,33 +577,38 @@ export function App() {
             <div className="space-y-1.5">
               <label className="text-xs font-semibold text-[#a1a1aa] uppercase tracking-wider flex items-center gap-1.5">
                 <Sparkles className="w-3.5 h-3.5 text-[#ff7300]" />
-                การบีบอัดไฟล์ (Compress)
+                {t.compressionLabel}
               </label>
               <div className="flex flex-col gap-1.5">
-                {COMPRESSION_OPTIONS.map((c) => (
-                  <button
-                    key={c.id}
-                    type="button"
-                    onClick={() => setSettings((s) => ({ ...s, compression: c.id }))}
-                    className={`w-full px-3 py-1.5 rounded-xl border text-left flex items-center justify-between transition cursor-pointer ${
-                      settings.compression === c.id
-                        ? 'bg-[rgba(255,115,0,0.14)] border-[#ff7300] text-white'
-                        : 'bg-[#1c1c22] border-[#2c2c36] text-[#f4f4f5] hover:border-[#ff7300]/50 hover:bg-[#22222a]'
-                    }`}
-                  >
-                    <div className="min-w-0">
-                      <div className="text-xs font-semibold">{c.label}</div>
-                      <div className="text-[10px] text-[#a1a1aa] truncate">{c.sublabel}</div>
-                    </div>
-                    <div
-                      className={`w-3.5 h-3.5 rounded-full border-2 shrink-0 ml-2 ${
+                {COMPRESSION_OPTIONS.map((c) => {
+                  const compText = t.compressions[c.id];
+                  return (
+                    <button
+                      key={c.id}
+                      type="button"
+                      onClick={() => setSettings((s) => ({ ...s, compression: c.id }))}
+                      className={`w-full px-3 py-1.5 rounded-xl border text-left flex items-center justify-between transition cursor-pointer ${
                         settings.compression === c.id
-                          ? 'border-[#ff943d] bg-[#ff7300]'
-                          : 'border-[#71717a]'
+                          ? 'bg-[rgba(255,115,0,0.14)] border-[#ff7300] text-white'
+                          : 'bg-[#1c1c22] border-[#2c2c36] text-[#f4f4f5] hover:border-[#ff7300]/50 hover:bg-[#22222a]'
                       }`}
-                    />
-                  </button>
-                ))}
+                    >
+                      <div className="min-w-0">
+                        <div className="text-xs font-semibold">{compText.label}</div>
+                        <div className="text-[10px] text-[#a1a1aa] truncate">
+                          {compText.sublabel}
+                        </div>
+                      </div>
+                      <div
+                        className={`w-3.5 h-3.5 rounded-full border-2 shrink-0 ml-2 ${
+                          settings.compression === c.id
+                            ? 'border-[#ff943d] bg-[#ff7300]'
+                            : 'border-[#71717a]'
+                        }`}
+                      />
+                    </button>
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -583,13 +620,13 @@ export function App() {
               <div className="flex items-center justify-between mb-1">
                 <span className="inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wider text-[#ff943d]">
                   <Megaphone className="w-3 h-3 text-[#ff7300]" />
-                  Sponsored • พื้นที่โฆษณา
+                  {t.sponsored}
                 </span>
                 <span className="text-[10px] text-[#71717a]">Ad</span>
               </div>
               <div className="h-12 rounded-xl border border-dashed border-[#2c2c36] bg-[#141418]/70 flex items-center justify-center text-center px-3">
                 <p className="text-xs text-[#a1a1aa]">
-                  พื้นที่สำหรับแบนเนอร์โฆษณา (300×60 / AdSense)
+                  {t.adPlaceholder}
                 </p>
               </div>
             </div>
@@ -610,19 +647,19 @@ export function App() {
               {isGenerating ? (
                 <>
                   <Loader2 className="w-5 h-5 animate-spin" />
-                  กำลังสร้าง PDF...
+                  {t.generating}
                 </>
               ) : (
                 <>
                   <Download className="w-5 h-5" />
-                  สร้าง &amp; ดาวน์โหลด PDF
+                  {t.generateCta}
                 </>
               )}
             </button>
 
             {lastResult && (
               <p className="text-center text-[11px] text-emerald-400 font-medium -mt-1">
-                ดาวน์โหลดสำเร็จ! ({lastResult.count} หน้า • {formatBytes(lastResult.size)})
+                {t.downloadSuccess(lastResult.count, formatBytes(lastResult.size))}
               </p>
             )}
           </div>
