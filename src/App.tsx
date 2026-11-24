@@ -16,6 +16,7 @@ import {
 import {
   COMPRESSION_OPTIONS,
   MARGIN_OPTIONS,
+  PAGE_DIMENSIONS_PT,
   PAGE_SIZE_OPTIONS,
   type MarginOption,
   type PageItem,
@@ -366,8 +367,8 @@ export function App() {
                         </button>
                       </div>
 
-                      {/* Thumbnail */}
-                      <div className="aspect-[3/4] w-full bg-[#141418]/80 flex items-center justify-center p-3 overflow-hidden">
+                      {/* Thumbnail: Live Paper Preview */}
+                      <div className="aspect-square w-full bg-[#141418]/85 flex items-center justify-center p-3 overflow-hidden">
                         {page.isPdf ? (
                           <div className="flex flex-col items-center justify-center text-[#a1a1aa] gap-2">
                             <FileText className="w-12 h-12 text-[#ff7300]" />
@@ -376,12 +377,69 @@ export function App() {
                             </span>
                           </div>
                         ) : (
-                          <img
-                            src={page.previewUrl}
-                            alt={page.name}
-                            style={{ transform: `rotate(${page.rotation}deg)` }}
-                            className="max-w-full max-h-full object-contain rounded transition-transform duration-200 pointer-events-none"
-                          />
+                          (() => {
+                            const marginPts =
+                              MARGIN_OPTIONS.find((m) => m.id === settings.margin)?.pts ?? 0;
+                            const rotated = page.rotation === 90 || page.rotation === 270;
+                            const imgW = rotated ? page.height : page.width;
+                            const imgH = rotated ? page.width : page.height;
+
+                            let pageW: number;
+                            let pageH: number;
+                            if (settings.pageSize === 'fit') {
+                              pageW = imgW * 0.75 + marginPts * 2;
+                              pageH = imgH * 0.75 + marginPts * 2;
+                            } else {
+                              const [baseW, baseH] = PAGE_DIMENSIONS_PT[settings.pageSize];
+                              if (settings.orientation === 'landscape') {
+                                pageW = Math.max(baseW, baseH);
+                                pageH = Math.min(baseW, baseH);
+                              } else {
+                                pageW = Math.min(baseW, baseH);
+                                pageH = Math.max(baseW, baseH);
+                              }
+                            }
+
+                            const pageRatio = pageW / pageH;
+                            const availW = Math.max(10, pageW - marginPts * 2);
+                            const availH = Math.max(10, pageH - marginPts * 2);
+                            const scale = Math.min(availW / imgW, availH / imgH);
+                            const drawWpct = ((imgW * scale) / availW) * 100;
+                            const drawHpct = ((imgH * scale) / availH) * 100;
+                            const printableWpct = (availW / pageW) * 100;
+                            const printableHpct = (availH / pageH) * 100;
+
+                            return (
+                              <div
+                                style={{
+                                  aspectRatio: `${pageW} / ${pageH}`,
+                                  width: pageRatio >= 1 ? '100%' : 'auto',
+                                  height: pageRatio >= 1 ? 'auto' : '100%',
+                                }}
+                                className="max-w-full max-h-full bg-white rounded-[3px] shadow-[0_6px_20px_rgba(0,0,0,0.55)] ring-1 ring-black/10 flex items-center justify-center overflow-hidden transition-all duration-200"
+                              >
+                                <div
+                                  style={{
+                                    width: `${printableWpct}%`,
+                                    height: `${printableHpct}%`,
+                                    containerType: 'size',
+                                  }}
+                                  className="relative flex items-center justify-center overflow-hidden"
+                                >
+                                  <img
+                                    src={page.previewUrl}
+                                    alt={page.name}
+                                    style={{
+                                      width: rotated ? `${drawHpct}cqh` : `${drawWpct}cqw`,
+                                      height: rotated ? `${drawWpct}cqw` : `${drawHpct}cqh`,
+                                      transform: `rotate(${page.rotation}deg)`,
+                                    }}
+                                    className="max-w-none max-h-none object-contain transition-transform duration-200 pointer-events-none"
+                                  />
+                                </div>
+                              </div>
+                            );
+                          })()
                         )}
                       </div>
 
@@ -406,7 +464,7 @@ export function App() {
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
-                  className="aspect-[3/4] rounded-2xl border-2 border-dashed border-[#2c2c36] hover:border-[#ff7300]/70 bg-[#1c1c22]/40 hover:bg-[#1c1c22]/80 flex flex-col items-center justify-center gap-2 text-[#a1a1aa] hover:text-[#ff7300] transition cursor-pointer"
+                  className="aspect-square rounded-2xl border-2 border-dashed border-[#2c2c36] hover:border-[#ff7300]/70 bg-[#1c1c22]/40 hover:bg-[#1c1c22]/80 flex flex-col items-center justify-center gap-2 text-[#a1a1aa] hover:text-[#ff7300] transition cursor-pointer"
                 >
                   <FilePlus2 className="w-7 h-7" />
                   <span className="text-xs font-medium">{t.addFiles}</span>

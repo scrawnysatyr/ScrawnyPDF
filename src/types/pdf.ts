@@ -82,3 +82,12 @@ export const MARGIN_OPTIONS: { id: MarginOption; label: string; pts: number }[] 
   { id: 'medium', label: 'กลาง (20mm)', pts: 56.69 },
   { id: 'large', label: 'ใหญ่ (30mm)', pts: 85.04 },
 ];
+
+// Standard PDF page sizes in points (1 inch = 72 pt)
+export const PAGE_DIMENSIONS_PT: Record<Exclude<PageSizeOption, 'fit'>, [number, number]> = {
+  a4: [595.28, 841.89],
+  letter: [612, 792],
+  legal: [612, 1008],
+  a3: [841.89, 1190.55],
+  a5: [419.53, 595.28],
+};

@@ -2,19 +2,10 @@ import { PDFDocument } from 'pdf-lib';
 import {
   COMPRESSION_OPTIONS,
   MARGIN_OPTIONS,
+  PAGE_DIMENSIONS_PT,
   type PageItem,
-  type PageSizeOption,
   type PdfSettings,
 } from '../types/pdf';
-
-// Standard PDF page sizes in points (1 inch = 72 pt)
-const PAGE_DIMENSIONS_PT: Record<Exclude<PageSizeOption, 'fit'>, [number, number]> = {
-  a4: [595.28, 841.89],
-  letter: [612, 792],
-  legal: [612, 1008],
-  a3: [841.89, 1190.55],
-  a5: [419.53, 595.28],
-};
 
 function loadImage(url: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
