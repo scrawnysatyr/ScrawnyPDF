@@ -1,5 +1,6 @@
 import React, { useCallback, useRef, useState } from 'react';
 import {
+  ChevronDown,
   FilePlus2,
   FileText,
   GripVertical,
@@ -16,7 +17,9 @@ import {
   COMPRESSION_OPTIONS,
   MARGIN_OPTIONS,
   PAGE_SIZE_OPTIONS,
+  type MarginOption,
   type PageItem,
+  type PageSizeOption,
   type PdfSettings,
 } from './types/pdf';
 import { formatBytes, generatePdf } from './utils/pdfGenerator';
@@ -386,74 +389,157 @@ export function App() {
 
         {/* RIGHT PANEL: Settings + Ad Panel + Big CTA */}
         <aside className="w-[340px] lg:w-[370px] shrink-0 border-l border-[#2c2c36] bg-[#18181e]/95 backdrop-blur flex flex-col justify-between p-4 gap-3 overflow-hidden">
-          <div className="flex-1 min-h-0 overflow-y-auto grid-scroll flex flex-col gap-3 pr-0.5">
-            {/* Page Size & Orientation */}
-            <div className="space-y-1.5">
-              <div className="flex items-center justify-between">
-                <label className="text-xs font-semibold text-[#a1a1aa] uppercase tracking-wider">
-                  ขนาดหน้ากระดาษ
-                </label>
-                {settings.pageSize !== 'fit' && (
-                  <div className="flex rounded-lg bg-[#141418] p-0.5 border border-[#2c2c36]">
-                    {(['portrait', 'landscape'] as const).map((ori) => (
-                      <button
-                        key={ori}
-                        type="button"
-                        onClick={() => setSettings((s) => ({ ...s, orientation: ori }))}
-                        className={`px-2 py-0.5 text-[11px] font-semibold rounded-md transition cursor-pointer ${
-                          settings.orientation === ori
-                            ? 'bg-[#ff7300] text-[#141418]'
-                            : 'text-[#a1a1aa] hover:text-white'
-                        }`}
-                      >
-                        {ori === 'portrait' ? 'แนวตั้ง' : 'แนวนอน'}
-                      </button>
-                    ))}
-                  </div>
+          <div className="flex-1 min-h-0 overflow-y-auto grid-scroll flex flex-col gap-4 pr-0.5">
+            {/* Page Orientation */}
+            <fieldset className="space-y-2 border-0 p-0 m-0" disabled={settings.pageSize === 'fit'}>
+              <legend className="text-xs font-semibold text-[#a1a1aa] uppercase tracking-wider flex items-center justify-between w-full">
+                <span>แนวกระดาษ (Orientation)</span>
+                {settings.pageSize === 'fit' && (
+                  <span className="text-[10px] font-normal normal-case text-[#71717a]">
+                    ตามขนาดภาพ
+                  </span>
                 )}
+              </legend>
+              <div className="grid grid-cols-2 gap-2.5">
+                {(['portrait', 'landscape'] as const).map((ori) => {
+                  const isSelected = settings.orientation === ori;
+                  const isDisabled = settings.pageSize === 'fit';
+                  return (
+                    <label
+                      key={ori}
+                      className={`relative flex flex-col items-center justify-center gap-2 py-3 px-2 rounded-xl border transition select-none ${
+                        isDisabled
+                          ? 'opacity-45 cursor-not-allowed bg-[#1c1c22]/60 border-[#2c2c36] text-[#71717a]'
+                          : isSelected
+                          ? 'cursor-pointer bg-[rgba(255,115,0,0.12)] border-[#ff7300] text-white'
+                          : 'cursor-pointer bg-[#1c1c22] border-[#2c2c36] text-[#a1a1aa] hover:border-[#ff7300]/50 hover:bg-[#22222a] hover:text-white'
+                      } has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-[#ff7300] has-[:focus-visible]:outline-offset-2`}
+                    >
+                      <input
+                        type="radio"
+                        name="orientation"
+                        value={ori}
+                        checked={isSelected}
+                        disabled={isDisabled}
+                        onChange={() => setSettings((s) => ({ ...s, orientation: ori }))}
+                        className="visually-hidden"
+                      />
+                      <span
+                        aria-hidden="true"
+                        className={`rounded-[3px] border-2 transition-colors ${
+                          ori === 'portrait' ? 'w-5 h-7' : 'w-7 h-5'
+                        } ${
+                          isSelected && !isDisabled
+                            ? 'border-[#ff7300] bg-[rgba(255,115,0,0.12)]'
+                            : 'border-current'
+                        }`}
+                      />
+                      <span className="text-xs font-semibold leading-none">
+                        {ori === 'portrait' ? 'แนวตั้ง (Portrait)' : 'แนวนอน (Landscape)'}
+                      </span>
+                    </label>
+                  );
+                })}
               </div>
+            </fieldset>
 
-              <div className="grid grid-cols-3 gap-1.5">
-                {PAGE_SIZE_OPTIONS.map((opt) => (
-                  <button
-                    key={opt.id}
-                    type="button"
-                    onClick={() => setSettings((s) => ({ ...s, pageSize: opt.id }))}
-                    className={`px-2.5 py-1.5 rounded-xl border text-left transition cursor-pointer ${
-                      settings.pageSize === opt.id
-                        ? 'bg-[rgba(255,115,0,0.14)] border-[#ff7300] text-white'
-                        : 'bg-[#1c1c22] border-[#2c2c36] text-[#f4f4f5] hover:border-[#ff7300]/50 hover:bg-[#22222a]'
-                    }`}
-                  >
-                    <div className="text-xs font-semibold truncate">{opt.label}</div>
-                    <div className="text-[10px] text-[#a1a1aa] truncate">{opt.desc}</div>
-                  </button>
-                ))}
+            {/* Page Size Dropdown */}
+            <div className="space-y-2">
+              <label
+                htmlFor="page-size-select"
+                className="block text-xs font-semibold text-[#a1a1aa] uppercase tracking-wider"
+              >
+                ขนาดหน้ากระดาษ (Page size)
+              </label>
+              <div className="relative">
+                <select
+                  id="page-size-select"
+                  name="pageSize"
+                  value={settings.pageSize}
+                  onChange={(e) =>
+                    setSettings((s) => ({ ...s, pageSize: e.target.value as PageSizeOption }))
+                  }
+                  className="scrawny-select"
+                >
+                  {PAGE_SIZE_OPTIONS.map((opt) => (
+                    <option key={opt.id} value={opt.id}>
+                      {opt.label} ({opt.desc})
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown
+                  aria-hidden="true"
+                  className="scrawny-select-chevron w-4 h-4 text-[#a1a1aa] pointer-events-none absolute right-3 top-1/2 -translate-y-1/2"
+                />
               </div>
             </div>
 
             {/* Margin */}
-            <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-[#a1a1aa] uppercase tracking-wider">
+            <fieldset className="space-y-2 border-0 p-0 m-0">
+              <legend className="text-xs font-semibold text-[#a1a1aa] uppercase tracking-wider">
                 ขอบกระดาษ (Margin)
-              </label>
-              <div className="grid grid-cols-4 gap-1.5">
-                {MARGIN_OPTIONS.map((m) => (
-                  <button
-                    key={m.id}
-                    type="button"
-                    onClick={() => setSettings((s) => ({ ...s, margin: m.id }))}
-                    className={`py-1.5 px-1 rounded-xl border text-center text-[11px] font-medium transition cursor-pointer ${
-                      settings.margin === m.id
-                        ? 'bg-[rgba(255,115,0,0.14)] border-[#ff7300] text-white'
-                        : 'bg-[#1c1c22] border-[#2c2c36] text-[#f4f4f5] hover:border-[#ff7300]/50 hover:bg-[#22222a]'
-                    }`}
-                  >
-                    {m.label}
-                  </button>
-                ))}
+              </legend>
+              <div className="grid grid-cols-4 gap-2">
+                {MARGIN_OPTIONS.map((m) => {
+                  const isSelected = settings.margin === m.id;
+                  const marginPreviewPad: Record<MarginOption, string> = {
+                    none: 'p-0',
+                    small: 'p-1',
+                    medium: 'p-1.5',
+                    large: 'p-2',
+                  };
+                  const shortLabel: Record<MarginOption, string> = {
+                    none: 'ไม่มี',
+                    small: 'เล็ก',
+                    medium: 'กลาง',
+                    large: 'ใหญ่',
+                  };
+                  return (
+                    <label
+                      key={m.id}
+                      title={m.label}
+                      className={`relative flex flex-col items-center justify-center gap-2 py-2.5 px-1 rounded-xl border transition cursor-pointer select-none ${
+                        isSelected
+                          ? 'bg-[rgba(255,115,0,0.12)] border-[#ff7300] text-white'
+                          : 'bg-[#1c1c22] border-[#2c2c36] text-[#a1a1aa] hover:border-[#ff7300]/50 hover:bg-[#22222a] hover:text-white'
+                      } has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-[#ff7300] has-[:focus-visible]:outline-offset-2`}
+                    >
+                      <input
+                        type="radio"
+                        name="margin"
+                        value={m.id}
+                        checked={isSelected}
+                        onChange={() => setSettings((s) => ({ ...s, margin: m.id }))}
+                        className="visually-hidden"
+                      />
+                      <span
+                        aria-hidden="true"
+                        className={`w-8 h-8 rounded flex items-center justify-center ${
+                          m.id === 'none'
+                            ? ''
+                            : isSelected
+                            ? 'margin-checker-active'
+                            : 'margin-checker'
+                        } ${marginPreviewPad[m.id]}`}
+                      >
+                        <span
+                          className={`w-full h-full rounded-[2px] border-[1.5px] flex items-center justify-center ${
+                            isSelected
+                              ? 'border-[#ff7300] bg-[#18181e]'
+                              : 'border-current bg-[#141418]'
+                          }`}
+                        >
+                          <ImageIcon className="w-3.5 h-3.5" />
+                        </span>
+                      </span>
+                      <span className="text-[11px] font-semibold leading-none">
+                        {shortLabel[m.id]}
+                      </span>
+                    </label>
+                  );
+                })}
               </div>
-            </div>
+            </fieldset>
 
             {/* Compression (5 options: No compression + 4 levels) */}
             <div className="space-y-1.5">
