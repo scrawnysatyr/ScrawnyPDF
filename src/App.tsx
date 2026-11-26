@@ -329,26 +329,26 @@ export function App() {
           </h1>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2.5">
           {pages.length > 0 && (
             <>
-              <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-[rgba(255,115,0,0.14)] text-[#ff943d] border border-[rgba(255,115,0,0.3)]">
+              <span className="text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-full bg-[rgba(255,115,0,0.14)] text-[#ff943d] border border-[rgba(255,115,0,0.3)]">
                 {t.pageCount(pages.length)}
               </span>
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#27272c] hover:bg-[#303036] text-[#ffffff] text-xs font-medium transition cursor-pointer border border-white/10 hover:border-[#ff7300]"
+                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#27272c] hover:bg-[#303036] text-[#ffffff] text-xs sm:text-sm font-medium transition cursor-pointer border border-white/10 hover:border-[#ff7300]"
               >
-                <FilePlus2 className="w-3.5 h-3.5 text-[#ff7300]" />
+                <FilePlus2 className="w-4 h-4 text-[#ff7300]" />
                 {t.addFiles}
               </button>
               <button
                 type="button"
                 onClick={clearAll}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 text-xs font-medium transition cursor-pointer border border-rose-500/30"
+                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 text-xs sm:text-sm font-medium transition cursor-pointer border border-rose-500/30"
               >
-                <Trash2 className="w-3.5 h-3.5" />
+                <Trash2 className="w-4 h-4" />
                 {t.clearAll}
               </button>
             </>
@@ -359,12 +359,12 @@ export function App() {
             href="https://buymeacoffee.com/scrawnysatyr"
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#27272c] hover:bg-[#303036] border border-white/10 hover:border-[#ff7300] text-[#ffffff] text-xs font-semibold transition"
+            className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[#27272c] hover:bg-[#303036] border border-white/10 hover:border-[#ff7300] text-[#ffffff] text-xs sm:text-sm font-semibold transition"
           >
             <svg
               viewBox="0 0 24 24"
-              width="14"
-              height="14"
+              width="15"
+              height="15"
               fill="none"
               stroke="currentColor"
               strokeWidth="2.2"
@@ -386,7 +386,7 @@ export function App() {
           <div
             role="group"
             aria-label="Language"
-            className="flex items-center rounded-lg bg-[#27272c] p-0.5 border border-white/10"
+            className="flex items-center rounded-xl bg-[#27272c] p-1 border border-white/10"
           >
             {(['en', 'th'] as const).map((code) => (
               <button
@@ -394,7 +394,7 @@ export function App() {
                 type="button"
                 aria-pressed={lang === code}
                 onClick={() => setLang(code)}
-                className={`px-2.5 py-1 rounded-md text-[11px] font-bold uppercase transition cursor-pointer ${
+                className={`px-3 py-1 rounded-lg text-xs font-bold uppercase transition cursor-pointer ${
                   lang === code
                     ? 'bg-[#ff7300] text-[#050505]'
                     : 'text-[#d4d4d8] hover:text-white'
@@ -425,10 +425,10 @@ export function App() {
           </div>
         </aside>
 
-        {/* CENTER ISLAND: Dropzone + Scrollable Draggable Grid */}
+        {/* CENTER WORKSPACE: Transparent over signature grid + glow */}
         <section
-          className={`flex-1 min-w-0 flex flex-col relative rounded-2xl border border-white/10 shadow-lg overflow-hidden backdrop-blur-xl transition-colors ${
-            isDraggingFiles ? 'bg-[rgba(255,115,0,0.12)] border-[#ff7300]/60' : 'bg-[#18181b]/90'
+          className={`flex-1 min-w-0 flex flex-col relative rounded-2xl transition-colors ${
+            isDraggingFiles ? 'bg-[rgba(255,115,0,0.08)]' : 'bg-transparent'
           }`}
           onDragOver={(e) => {
             e.preventDefault();
@@ -481,19 +481,19 @@ export function App() {
             /* Scrollable Page Grid */
             <div className="flex-1 min-h-0 flex flex-col">
               {/* Grid Size Toolbar */}
-              <div className="shrink-0 px-5 pt-3 pb-1 flex items-center justify-between gap-3">
-                <span className="text-[11px] font-medium text-[#8a8a93]">
+              <div className="shrink-0 px-3 pt-1 pb-2 flex items-center justify-between gap-3">
+                <span className="text-xs sm:text-sm font-medium text-[#d4d4d8]">
                   {t.pageCount(pages.length)}
                 </span>
                 <div className="flex items-center gap-2">
-                  <span className="inline-flex items-center gap-1 text-[11px] text-[#8a8a93]">
-                    <LayoutGrid className="w-3.5 h-3.5 text-[#ff7300]" />
+                  <span className="inline-flex items-center gap-1.5 text-xs sm:text-sm text-[#d4d4d8]">
+                    <LayoutGrid className="w-4 h-4 text-[#ff7300]" />
                     {t.gridSizeLabel}
                   </span>
                   <div
                     role="group"
                     aria-label={t.gridSizeLabel}
-                    className="inline-flex rounded-lg border border-[#222226] bg-[#18181b] p-0.5"
+                    className="inline-flex rounded-xl border border-white/10 bg-[#18181b] p-1"
                   >
                     {(['sm', 'md', 'lg'] as const).map((sz) => (
                       <button
@@ -503,7 +503,7 @@ export function App() {
                           snapshotCardRects();
                           setGridSize(sz);
                         }}
-                        className={`px-2.5 py-1 rounded-md text-[11px] font-semibold transition cursor-pointer ${
+                        className={`px-3 py-1 rounded-lg text-xs font-semibold transition cursor-pointer ${
                           gridSize === sz
                             ? 'bg-[#ff7300] text-[#050505]'
                             : 'text-[#d4d4d8] hover:text-white'
@@ -846,12 +846,12 @@ export function App() {
             </fieldset>
 
             {/* Compression (5 options: No compression + 4 levels) */}
-            <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-[#d4d4d8] uppercase tracking-wider flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5 text-[#ff7300]" />
+            <div className="space-y-2">
+              <label className="text-xs sm:text-sm font-semibold text-[#d4d4d8] uppercase tracking-wider flex items-center gap-1.5">
+                <Sparkles className="w-4 h-4 text-[#ff7300]" />
                 {t.compressionLabel}
               </label>
-              <div className="flex flex-col gap-1.5">
+              <div className="flex flex-col gap-2">
                 {COMPRESSION_OPTIONS.map((c) => {
                   const compText = t.compressions[c.id];
                   return (
@@ -859,15 +859,15 @@ export function App() {
                       key={c.id}
                       type="button"
                       onClick={() => setSettings((s) => ({ ...s, compression: c.id }))}
-                      className={`w-full px-3 py-1.5 rounded-xl border text-left flex items-center justify-between transition cursor-pointer ${
+                      className={`w-full px-3.5 py-2 rounded-xl border text-left flex items-center justify-between transition cursor-pointer ${
                         settings.compression === c.id
                           ? 'bg-[rgba(255,115,0,0.14)] border-[#ff7300] text-white'
-                          : 'bg-[#18181b] border-[#222226] text-[#ffffff] hover:border-[#ff7300]/50 hover:bg-[#222226]'
+                          : 'bg-[#222226] border-white/10 text-[#ffffff] hover:border-[#ff7300]/50 hover:bg-[#27272c]'
                       }`}
                     >
                       <div className="min-w-0">
-                        <div className="text-xs font-semibold">{compText.label}</div>
-                        <div className="text-[10px] text-[#d4d4d8] truncate">
+                        <div className="text-sm font-semibold">{compText.label}</div>
+                        <div className="text-xs text-[#d4d4d8] truncate">
                           {compText.sublabel}
                         </div>
                       </div>
