@@ -11,8 +11,8 @@ body,
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: #141418;
-  color: #f4f4f5;
+  background-color: #050505;
+  color: #ffffff;
 }
 
 /* ScrawnyMain-style subtle grid and orange top glow */
@@ -20,8 +20,8 @@ body,
   position: fixed;
   inset: 0;
   background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+    linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
   background-size: 40px 40px;
   mask-image: radial-gradient(circle at 50% 20%, black 20%, transparent 80%);
   pointer-events: none;
@@ -35,7 +35,7 @@ body,
   transform: translateX(-50%);
   width: 720px;
   height: 420px;
-  background: radial-gradient(circle, rgba(255, 115, 0, 0.12) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(255, 115, 0, 0.16) 0%, transparent 70%);
   pointer-events: none;
   z-index: 0;
 }
@@ -46,7 +46,7 @@ body,
 }
 
 .grid-scroll::-webkit-scrollbar-track {
-  background: rgba(20, 20, 24, 0.5);
+  background: rgba(5, 5, 5, 0.6);
 }
 
 .grid-scroll::-webkit-scrollbar-thumb {
@@ -94,9 +94,9 @@ body,
 /* Branded select with progressive enhancement */
 .scrawny-select {
   appearance: none;
-  background-color: #1c1c22;
-  color: #f4f4f5;
-  border: 1px solid #2c2c36;
+  background-color: #0c0c0d;
+  color: #ffffff;
+  border: 1px solid #222226;
   border-radius: 0.75rem;
   padding: 0.625rem 2.25rem 0.625rem 0.875rem;
   font-size: 0.875rem;
@@ -108,7 +108,7 @@ body,
 
 .scrawny-select:hover {
   border-color: rgba(255, 115, 0, 0.55);
-  background-color: #22222a;
+  background-color: #141416;
 }
 
 .scrawny-select:focus-visible {
@@ -130,7 +130,7 @@ body,
   }
 
   .scrawny-select::picker-icon {
-    color: #a1a1aa;
+    color: #d4d4d8;
   }
 
   .scrawny-select-chevron {
@@ -138,9 +138,9 @@ body,
   }
 
   .scrawny-select::picker(select) {
-    background-color: #1c1c22;
-    color: #f4f4f5;
-    border: 1px solid #2c2c36;
+    background-color: #0c0c0d;
+    color: #ffffff;
+    border: 1px solid #222226;
     border-radius: 0.75rem;
     padding: 0.35rem;
     margin-top: 0.25rem;
@@ -150,7 +150,7 @@ body,
   .scrawny-select option {
     padding: 0.5rem 0.625rem;
     border-radius: 0.5rem;
-    color: #f4f4f5;
+    color: #ffffff;
     cursor: pointer;
   }
 
