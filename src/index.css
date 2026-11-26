@@ -94,7 +94,7 @@ body,
 /* Branded select with progressive enhancement */
 .scrawny-select {
   appearance: none;
-  background-color: #0c0c0d;
+  background-color: #18181b;
   color: #ffffff;
   border: 1px solid #222226;
   border-radius: 0.75rem;
@@ -138,7 +138,7 @@ body,
   }
 
   .scrawny-select::picker(select) {
-    background-color: #0c0c0d;
+    background-color: #18181b;
     color: #ffffff;
     border: 1px solid #222226;
     border-radius: 0.75rem;

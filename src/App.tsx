@@ -319,9 +319,9 @@ export function App() {
       <div className="bg-glow" aria-hidden="true" />
 
       {/* Top Bar */}
-      <header className="relative z-10 h-14 shrink-0 border-b border-[#222226] bg-[#0c0c0d]/85 backdrop-blur px-5 flex items-center justify-between">
+      <header className="relative z-10 h-14 shrink-0 border-b border-[#222226] bg-[#18181b]/85 backdrop-blur px-5 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-[#0c0c0d] border border-[#222226] flex items-center justify-center shadow-[inset_0_0_18px_rgba(255, 115, 0, 0.16)]">
+          <div className="w-9 h-9 rounded-xl bg-[#18181b] border border-[#222226] flex items-center justify-center shadow-[inset_0_0_18px_rgba(255, 115, 0, 0.16)]">
             <FileText className="w-5 h-5 text-[#ff7300]" />
           </div>
           <div>
@@ -343,7 +343,7 @@ export function App() {
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0c0c0d] hover:bg-[#141416] text-[#ffffff] text-xs font-medium transition cursor-pointer border border-[#222226] hover:border-[#ff7300]"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#18181b] hover:bg-[#222226] text-[#ffffff] text-xs font-medium transition cursor-pointer border border-[#222226] hover:border-[#ff7300]"
               >
                 <FilePlus2 className="w-3.5 h-3.5 text-[#ff7300]" />
                 {t.addFiles}
@@ -364,7 +364,7 @@ export function App() {
             href="https://buymeacoffee.com/scrawnysatyr"
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#0c0c0d] hover:bg-[#141416] border border-[#222226] hover:border-[#ff7300] text-[#ffffff] text-xs font-semibold transition"
+            className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#18181b] hover:bg-[#222226] border border-[#222226] hover:border-[#ff7300] text-[#ffffff] text-xs font-semibold transition"
           >
             <svg
               viewBox="0 0 24 24"
@@ -415,7 +415,7 @@ export function App() {
       {/* Main Content: Left Ad Rail + Center Grid + Right Settings */}
       <main className="relative z-10 flex-1 min-h-0 flex overflow-hidden">
         {/* LEFT SIDE FULL-HEIGHT AD RAIL */}
-        <aside className="hidden xl:flex w-[184px] shrink-0 border-r border-[#222226] bg-[#0c0c0d]/80 backdrop-blur p-3 flex-col gap-2">
+        <aside className="hidden xl:flex w-[184px] shrink-0 border-r border-[#222226] bg-[#18181b]/80 backdrop-blur p-3 flex-col gap-2">
           <div className="flex items-center justify-between px-1">
             <span className="inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wider text-[#ff943d]">
               <Megaphone className="w-3 h-3 text-[#ff7300]" />
@@ -465,7 +465,7 @@ export function App() {
                 className={`w-full max-w-xl border-2 border-dashed rounded-3xl p-12 flex flex-col items-center justify-center text-center cursor-pointer transition-all ${
                   isDraggingFiles
                     ? 'border-[#ff7300] bg-[rgba(255,115,0,0.1)] scale-[1.01]'
-                    : 'border-[#222226] bg-[#0c0c0d]/70 hover:border-[#ff7300]/70 hover:bg-[#0c0c0d]/90'
+                    : 'border-[#222226] bg-[#18181b]/70 hover:border-[#ff7300]/70 hover:bg-[#18181b]/90'
                 }`}
               >
                 <div className="w-16 h-16 rounded-2xl bg-[rgba(255,115,0,0.14)] border border-[rgba(255,115,0,0.28)] flex items-center justify-center mb-5">
@@ -498,7 +498,7 @@ export function App() {
                   <div
                     role="group"
                     aria-label={t.gridSizeLabel}
-                    className="inline-flex rounded-lg border border-[#222226] bg-[#0c0c0d] p-0.5"
+                    className="inline-flex rounded-lg border border-[#222226] bg-[#18181b] p-0.5"
                   >
                     {(['sm', 'md', 'lg'] as const).map((sz) => (
                       <button
@@ -537,7 +537,7 @@ export function App() {
                         className={`group relative flex flex-col rounded-2xl border overflow-hidden cursor-grab active:cursor-grabbing touch-none ${
                           isBeingDragged
                             ? 'border-2 border-dashed border-[#ff7300]/75 bg-[#ff7300]/10 shadow-inner'
-                            : 'border-[#222226] bg-[#0c0c0d]/95 hover:border-[#ff7300]/70 hover:bg-[#141416] transition-colors'
+                            : 'border-[#222226] bg-[#18181b]/95 hover:border-[#ff7300]/70 hover:bg-[#222226] transition-colors'
                         }`}
                       >
                         <div className={isBeingDragged ? 'opacity-0 pointer-events-none' : ''}>
@@ -661,7 +661,7 @@ export function App() {
                           </div>
 
                           {/* Footer Info */}
-                          <div className="px-3 py-2 border-t border-[#222226] bg-[#0c0c0d] flex items-center justify-between gap-2">
+                          <div className="px-3 py-2 border-t border-[#222226] bg-[#18181b] flex items-center justify-between gap-2">
                             <div className="min-w-0 flex-1">
                               <p className="text-xs font-medium text-[#ffffff] truncate" title={page.name}>
                                 {page.name}
@@ -682,7 +682,7 @@ export function App() {
                   <button
                     type="button"
                     onClick={() => fileInputRef.current?.click()}
-                    className="aspect-square rounded-2xl border-2 border-dashed border-[#222226] hover:border-[#ff7300]/70 bg-[#0c0c0d]/40 hover:bg-[#0c0c0d]/80 flex flex-col items-center justify-center gap-2 text-[#d4d4d8] hover:text-[#ff7300] transition cursor-pointer"
+                    className="aspect-square rounded-2xl border-2 border-dashed border-[#222226] hover:border-[#ff7300]/70 bg-[#18181b]/40 hover:bg-[#18181b]/80 flex flex-col items-center justify-center gap-2 text-[#d4d4d8] hover:text-[#ff7300] transition cursor-pointer"
                   >
                     <FilePlus2 className="w-7 h-7" />
                     <span className="text-xs font-medium">{t.addFiles}</span>
@@ -702,7 +702,7 @@ export function App() {
         </section>
 
         {/* RIGHT PANEL: Settings + Ad Panel + Big CTA */}
-        <aside className="w-[340px] lg:w-[370px] shrink-0 border-l border-[#222226] bg-[#0c0c0d]/95 backdrop-blur flex flex-col justify-between p-4 gap-3 overflow-hidden">
+        <aside className="w-[340px] lg:w-[370px] shrink-0 border-l border-[#222226] bg-[#18181b]/95 backdrop-blur flex flex-col justify-between p-4 gap-3 overflow-hidden">
           <div className="flex-1 min-h-0 overflow-y-auto grid-scroll flex flex-col gap-4 pr-0.5">
             {/* Page Orientation */}
             <fieldset className="space-y-2 border-0 p-0 m-0" disabled={settings.pageSize === 'fit'}>
@@ -723,10 +723,10 @@ export function App() {
                       key={ori}
                       className={`relative flex flex-col items-center justify-center gap-2 py-3 px-2 rounded-xl border transition select-none ${
                         isDisabled
-                          ? 'opacity-45 cursor-not-allowed bg-[#0c0c0d]/60 border-[#222226] text-[#8a8a93]'
+                          ? 'opacity-45 cursor-not-allowed bg-[#18181b]/60 border-[#222226] text-[#8a8a93]'
                           : isSelected
                           ? 'cursor-pointer bg-[rgba(255, 115, 0, 0.16)] border-[#ff7300] text-white'
-                          : 'cursor-pointer bg-[#0c0c0d] border-[#222226] text-[#d4d4d8] hover:border-[#ff7300]/50 hover:bg-[#141416] hover:text-white'
+                          : 'cursor-pointer bg-[#18181b] border-[#222226] text-[#d4d4d8] hover:border-[#ff7300]/50 hover:bg-[#222226] hover:text-white'
                       } has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-[#ff7300] has-[:focus-visible]:outline-offset-2`}
                     >
                       <input
@@ -810,7 +810,7 @@ export function App() {
                       className={`relative flex flex-col items-center justify-center gap-2 py-2.5 px-1 rounded-xl border transition cursor-pointer select-none ${
                         isSelected
                           ? 'bg-[rgba(255, 115, 0, 0.16)] border-[#ff7300] text-white'
-                          : 'bg-[#0c0c0d] border-[#222226] text-[#d4d4d8] hover:border-[#ff7300]/50 hover:bg-[#141416] hover:text-white'
+                          : 'bg-[#18181b] border-[#222226] text-[#d4d4d8] hover:border-[#ff7300]/50 hover:bg-[#222226] hover:text-white'
                       } has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-[#ff7300] has-[:focus-visible]:outline-offset-2`}
                     >
                       <input
@@ -834,7 +834,7 @@ export function App() {
                         <span
                           className={`w-full h-full rounded-[2px] border-[1.5px] flex items-center justify-center ${
                             isSelected
-                              ? 'border-[#ff7300] bg-[#0c0c0d]'
+                              ? 'border-[#ff7300] bg-[#18181b]'
                               : 'border-current bg-[#050505]'
                           }`}
                         >
@@ -867,7 +867,7 @@ export function App() {
                       className={`w-full px-3 py-1.5 rounded-xl border text-left flex items-center justify-between transition cursor-pointer ${
                         settings.compression === c.id
                           ? 'bg-[rgba(255,115,0,0.14)] border-[#ff7300] text-white'
-                          : 'bg-[#0c0c0d] border-[#222226] text-[#ffffff] hover:border-[#ff7300]/50 hover:bg-[#141416]'
+                          : 'bg-[#18181b] border-[#222226] text-[#ffffff] hover:border-[#ff7300]/50 hover:bg-[#222226]'
                       }`}
                     >
                       <div className="min-w-0">
@@ -893,7 +893,7 @@ export function App() {
           {/* Bottom Area: Ad Panel + Big Generate Button */}
           <div className="flex flex-col gap-2.5 shrink-0 pt-2 border-t border-[#222226]">
             {/* Ad Panel */}
-            <div className="rounded-2xl border border-[#222226] bg-[#0c0c0d] p-2.5 relative overflow-hidden">
+            <div className="rounded-2xl border border-[#222226] bg-[#18181b] p-2.5 relative overflow-hidden">
               <div className="flex items-center justify-between mb-1">
                 <span className="inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wider text-[#ff943d]">
                   <Megaphone className="w-3 h-3 text-[#ff7300]" />
@@ -915,7 +915,7 @@ export function App() {
               onClick={handleGenerate}
               className={`w-full py-3.5 px-5 rounded-2xl font-bold text-base flex items-center justify-center gap-2.5 shadow-xl transition-all cursor-pointer ${
                 pages.length === 0
-                  ? 'bg-[#0c0c0d] border border-[#222226] text-[#8a8a93] cursor-not-allowed shadow-none'
+                  ? 'bg-[#18181b] border border-[#222226] text-[#8a8a93] cursor-not-allowed shadow-none'
                   : isGenerating
                   ? 'bg-[#ff7300]/80 text-[#050505] cursor-wait'
                   : 'bg-[#ff7300] hover:bg-[#ff851f] text-[#050505] shadow-[#ff7300]/25 active:scale-[0.99]'
@@ -960,7 +960,7 @@ export function App() {
                 zIndex: 50,
                 pointerEvents: 'none',
               }}
-              className="flex flex-col rounded-2xl border-2 border-[#ff7300] bg-[#141416] overflow-hidden shadow-[0_20px_50px_rgba(255,115,0,0.3)] scale-[1.04]"
+              className="flex flex-col rounded-2xl border-2 border-[#ff7300] bg-[#222226] overflow-hidden shadow-[0_20px_50px_rgba(255,115,0,0.3)] scale-[1.04]"
             >
               <div className="absolute top-2 left-2 z-10 flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#ff7300] text-[11px] font-bold text-[#050505]">
                 <GripVertical className="w-3 h-3" />
@@ -978,7 +978,7 @@ export function App() {
                   />
                 )}
               </div>
-              <div className="px-3 py-2 border-t border-[#222226] bg-[#0c0c0d] flex items-center justify-between gap-2">
+              <div className="px-3 py-2 border-t border-[#222226] bg-[#18181b] flex items-center justify-between gap-2">
                 <div className="min-w-0 flex-1">
                   <p className="text-xs font-medium text-[#ffffff] truncate">{heldPage.name}</p>
                   <p className="text-[10px] text-[#d4d4d8]">
