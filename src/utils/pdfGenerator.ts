@@ -110,13 +110,16 @@ export async function generatePdf(
 
     let pageW: number;
     let pageH: number;
+    let effectiveMarginPts = marginPts;
 
     if (settings.pageSize === 'fit') {
       // 1 px = 0.75 pt (96 DPI -> 72 pt/in)
       const imgPtW = processed.width * 0.75;
       const imgPtH = processed.height * 0.75;
-      pageW = imgPtW + marginPts * 2;
-      pageH = imgPtH + marginPts * 2;
+      // Scale margin proportionally to image size so small & large images keep consistent visual margins
+      effectiveMarginPts = Math.min(imgPtW, imgPtH) * (marginPts / 595.28);
+      pageW = imgPtW + effectiveMarginPts * 2;
+      pageH = imgPtH + effectiveMarginPts * 2;
     } else {
       const [baseW, baseH] = PAGE_DIMENSIONS_PT[settings.pageSize];
       if (settings.orientation === 'landscape') {
@@ -129,8 +132,8 @@ export async function generatePdf(
     }
 
     const page = pdfDoc.addPage([pageW, pageH]);
-    const availW = Math.max(10, pageW - marginPts * 2);
-    const availH = Math.max(10, pageH - marginPts * 2);
+    const availW = Math.max(10, pageW - effectiveMarginPts * 2);
+    const availH = Math.max(10, pageH - effectiveMarginPts * 2);
 
     const scale = Math.min(availW / processed.width, availH / processed.height);
     const drawW = processed.width * scale;

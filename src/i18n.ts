@@ -26,6 +26,10 @@ export interface Translations {
   compressions: Record<CompressionLevel, { label: string; sublabel: string }>;
   sponsored: string;
   adPlaceholder: string;
+  adVerticalPlaceholder: string;
+  buyMeOrange: string;
+  gridSizeLabel: string;
+  gridSizes: { sm: string; md: string; lg: string };
   generating: string;
   generateCta: string;
   downloadSuccess: (count: number, size: string) => string;
@@ -68,6 +72,10 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     },
     sponsored: 'Sponsored',
     adPlaceholder: 'Ad banner space (300×60 / AdSense)',
+    adVerticalPlaceholder: 'Ad space\n160 × 600',
+    buyMeOrange: 'Buy me an orange',
+    gridSizeLabel: 'Grid size',
+    gridSizes: { sm: 'Small', md: 'Medium', lg: 'Large' },
     generating: 'Generating PDF...',
     generateCta: 'Create & Download PDF',
     downloadSuccess: (count, size) =>
@@ -109,6 +117,10 @@ export const TRANSLATIONS: Record<Language, Translations> = {
     },
     sponsored: 'Sponsored • พื้นที่โฆษณา',
     adPlaceholder: 'พื้นที่สำหรับแบนเนอร์โฆษณา (300×60 / AdSense)',
+    adVerticalPlaceholder: 'พื้นที่โฆษณา\n160 × 600',
+    buyMeOrange: 'Buy me an orange',
+    gridSizeLabel: 'ขนาดตาราง',
+    gridSizes: { sm: 'เล็ก', md: 'กลาง', lg: 'ใหญ่' },
     generating: 'กำลังสร้าง PDF...',
     generateCta: 'สร้าง & ดาวน์โหลด PDF',
     downloadSuccess: (count, size) => `ดาวน์โหลดสำเร็จ! (${count} หน้า • ${size})`,
