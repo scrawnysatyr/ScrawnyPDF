@@ -321,17 +321,12 @@ export function App() {
       {/* Top Bar */}
       <header className="relative z-10 h-12 shrink-0 px-1 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-xl bg-[#18181b] border border-[#222226] flex items-center justify-center shadow-[inset_0_0_18px_rgba(255, 115, 0, 0.16)]">
-            <FileText className="w-4 h-4 text-[#ff7300]" />
+          <div className="w-10 h-10 rounded-xl bg-[#18181b] border border-[#222226] flex items-center justify-center shadow-[inset_0_0_18px_rgba(255, 115, 0, 0.16)]">
+            <FileText className="w-5 h-5 text-[#ff7300]" />
           </div>
-          <div>
-            <h1 className="text-sm sm:text-base font-bold tracking-tight text-white leading-none">
-              <span className="text-[#ff7300]">pdf</span>.scrawny<span className="text-[#ff7300]">.site</span>
-            </h1>
-            <p className="text-[11px] text-[#d4d4d8] mt-0.5">
-              {t.subtitle}
-            </p>
-          </div>
+          <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-white leading-none">
+            <span className="text-[#ff7300]">pdf</span>.scrawny<span className="text-[#ff7300]">.site</span>
+          </h1>
         </div>
 
         <div className="flex items-center gap-2">
