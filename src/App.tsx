@@ -885,24 +885,8 @@ export function App() {
             </div>
           </div>
 
-          {/* Bottom Area: Ad Panel + Big Generate Button */}
+          {/* Bottom Area: Big Generate Button */}
           <div className="flex flex-col gap-2.5 shrink-0 pt-2 border-t border-[#222226]">
-            {/* Ad Panel */}
-            <div className="rounded-2xl border border-[#222226] bg-[#18181b] p-2.5 relative overflow-hidden">
-              <div className="flex items-center justify-between mb-1">
-                <span className="inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wider text-[#ff943d]">
-                  <Megaphone className="w-3 h-3 text-[#ff7300]" />
-                  {t.sponsored}
-                </span>
-                <span className="text-[10px] text-[#8a8a93]">Ad</span>
-              </div>
-              <div className="h-12 rounded-xl border border-dashed border-[#222226] bg-[#050505]/70 flex items-center justify-center text-center px-3">
-                <p className="text-xs text-[#d4d4d8]">
-                  {t.adPlaceholder}
-                </p>
-              </div>
-            </div>
-
             {/* Big Primary Action Button */}
             <button
               type="button"
