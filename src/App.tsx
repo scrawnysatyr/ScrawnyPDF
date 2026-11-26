@@ -318,15 +318,15 @@ export function App() {
       <div className="bg-grid" aria-hidden="true" />
       <div className="bg-glow" aria-hidden="true" />
 
-      {/* Top Bar Island */}
-      <header className="relative z-10 h-13 shrink-0 rounded-2xl border border-white/10 bg-[#18181b]/95 backdrop-blur-xl shadow-lg px-4 flex items-center justify-between">
+      {/* Top Bar */}
+      <header className="relative z-10 h-12 shrink-0 px-1 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-xl bg-[#27272c] border border-white/10 flex items-center justify-center shadow-[inset_0_0_18px_rgba(255, 115, 0, 0.16)]">
+          <div className="w-8 h-8 rounded-xl bg-[#18181b] border border-[#222226] flex items-center justify-center shadow-[inset_0_0_18px_rgba(255, 115, 0, 0.16)]">
             <FileText className="w-4 h-4 text-[#ff7300]" />
           </div>
           <div>
             <h1 className="text-sm sm:text-base font-bold tracking-tight text-white leading-none">
-              Scrawny<span className="text-[#ff7300]">PDF</span>
+              <span className="text-[#ff7300]">pdf</span>.scrawny<span className="text-[#ff7300]">.site</span>
             </h1>
             <p className="text-[11px] text-[#d4d4d8] mt-0.5">
               {t.subtitle}
