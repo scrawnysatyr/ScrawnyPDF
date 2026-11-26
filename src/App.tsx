@@ -313,19 +313,19 @@ export function App() {
   };
 
   return (
-    <div className="h-screen w-screen flex flex-col bg-[#050505] text-[#ffffff] overflow-hidden select-none relative">
+    <div className="h-screen w-screen flex flex-col p-2.5 sm:p-3.5 gap-3 bg-[#050505] text-[#ffffff] overflow-hidden select-none relative">
       {/* ScrawnyMain Background Layers */}
       <div className="bg-grid" aria-hidden="true" />
       <div className="bg-glow" aria-hidden="true" />
 
-      {/* Top Bar */}
-      <header className="relative z-10 h-14 shrink-0 border-b border-[#222226] bg-[#18181b]/85 backdrop-blur px-5 flex items-center justify-between">
+      {/* Top Bar Island */}
+      <header className="relative z-10 h-13 shrink-0 rounded-2xl border border-white/10 bg-[#18181b]/95 backdrop-blur-xl shadow-lg px-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-[#18181b] border border-[#222226] flex items-center justify-center shadow-[inset_0_0_18px_rgba(255, 115, 0, 0.16)]">
-            <FileText className="w-5 h-5 text-[#ff7300]" />
+          <div className="w-8 h-8 rounded-xl bg-[#27272c] border border-white/10 flex items-center justify-center shadow-[inset_0_0_18px_rgba(255, 115, 0, 0.16)]">
+            <FileText className="w-4 h-4 text-[#ff7300]" />
           </div>
           <div>
-            <h1 className="text-base font-bold tracking-tight text-white leading-none">
+            <h1 className="text-sm sm:text-base font-bold tracking-tight text-white leading-none">
               Scrawny<span className="text-[#ff7300]">PDF</span>
             </h1>
             <p className="text-[11px] text-[#d4d4d8] mt-0.5">
@@ -334,7 +334,7 @@ export function App() {
           </div>
         </div>
 
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-2">
           {pages.length > 0 && (
             <>
               <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-[rgba(255,115,0,0.14)] text-[#ff943d] border border-[rgba(255,115,0,0.3)]">
@@ -343,7 +343,7 @@ export function App() {
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#18181b] hover:bg-[#222226] text-[#ffffff] text-xs font-medium transition cursor-pointer border border-[#222226] hover:border-[#ff7300]"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#27272c] hover:bg-[#303036] text-[#ffffff] text-xs font-medium transition cursor-pointer border border-white/10 hover:border-[#ff7300]"
               >
                 <FilePlus2 className="w-3.5 h-3.5 text-[#ff7300]" />
                 {t.addFiles}
@@ -351,7 +351,7 @@ export function App() {
               <button
                 type="button"
                 onClick={clearAll}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 text-xs font-medium transition cursor-pointer border border-rose-500/25"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 text-xs font-medium transition cursor-pointer border border-rose-500/30"
               >
                 <Trash2 className="w-3.5 h-3.5" />
                 {t.clearAll}
@@ -364,7 +364,7 @@ export function App() {
             href="https://buymeacoffee.com/scrawnysatyr"
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#18181b] hover:bg-[#222226] border border-[#222226] hover:border-[#ff7300] text-[#ffffff] text-xs font-semibold transition"
+            className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#27272c] hover:bg-[#303036] border border-white/10 hover:border-[#ff7300] text-[#ffffff] text-xs font-semibold transition"
           >
             <svg
               viewBox="0 0 24 24"
@@ -391,7 +391,7 @@ export function App() {
           <div
             role="group"
             aria-label="Language"
-            className="flex items-center rounded-lg bg-[#050505] p-0.5 border border-[#222226]"
+            className="flex items-center rounded-lg bg-[#27272c] p-0.5 border border-white/10"
           >
             {(['en', 'th'] as const).map((code) => (
               <button
@@ -412,10 +412,10 @@ export function App() {
         </div>
       </header>
 
-      {/* Main Content: Left Ad Rail + Center Grid + Right Settings */}
-      <main className="relative z-10 flex-1 min-h-0 flex overflow-hidden">
-        {/* LEFT SIDE FULL-HEIGHT AD RAIL */}
-        <aside className="hidden xl:flex w-[184px] shrink-0 border-r border-[#222226] bg-[#18181b]/80 backdrop-blur p-3 flex-col gap-2">
+      {/* Main Content: Left Ad Island + Center Grid Island + Right Settings Island */}
+      <main className="relative z-10 flex-1 min-h-0 flex gap-3 overflow-hidden">
+        {/* LEFT SIDE FULL-HEIGHT AD ISLAND */}
+        <aside className="hidden xl:flex w-[184px] shrink-0 rounded-2xl border border-white/10 bg-[#18181b]/95 backdrop-blur-xl shadow-lg p-3 flex-col gap-2">
           <div className="flex items-center justify-between px-1">
             <span className="inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wider text-[#ff943d]">
               <Megaphone className="w-3 h-3 text-[#ff7300]" />
@@ -423,17 +423,17 @@ export function App() {
             </span>
             <span className="text-[10px] text-[#8a8a93]">Ad</span>
           </div>
-          <div className="flex-1 min-h-0 rounded-2xl border border-dashed border-[#222226] bg-[#050505]/70 flex flex-col items-center justify-center text-center p-3">
+          <div className="flex-1 min-h-0 rounded-xl border border-dashed border-white/15 bg-[#202024]/70 flex flex-col items-center justify-center text-center p-3">
             <p className="text-xs text-[#8a8a93] whitespace-pre-line leading-relaxed">
               {t.adVerticalPlaceholder}
             </p>
           </div>
         </aside>
 
-        {/* CENTER PANEL: Dropzone + Scrollable Draggable Grid */}
+        {/* CENTER ISLAND: Dropzone + Scrollable Draggable Grid */}
         <section
-          className={`flex-1 min-w-0 flex flex-col relative transition-colors ${
-            isDraggingFiles ? 'bg-[rgba(255,115,0,0.06)]' : 'bg-transparent'
+          className={`flex-1 min-w-0 flex flex-col relative rounded-2xl border border-white/10 shadow-lg overflow-hidden backdrop-blur-xl transition-colors ${
+            isDraggingFiles ? 'bg-[rgba(255,115,0,0.12)] border-[#ff7300]/60' : 'bg-[#18181b]/90'
           }`}
           onDragOver={(e) => {
             e.preventDefault();
@@ -701,8 +701,8 @@ export function App() {
           )}
         </section>
 
-        {/* RIGHT PANEL: Settings + Ad Panel + Big CTA */}
-        <aside className="w-[340px] lg:w-[370px] shrink-0 border-l border-[#222226] bg-[#18181b]/95 backdrop-blur flex flex-col justify-between p-4 gap-3 overflow-hidden">
+        {/* RIGHT ISLAND: Settings + Ad Panel + Big CTA */}
+        <aside className="w-[340px] lg:w-[370px] shrink-0 rounded-2xl border border-white/10 bg-[#18181b]/95 backdrop-blur-xl shadow-lg flex flex-col justify-between p-4 gap-3 overflow-hidden">
           <div className="flex-1 min-h-0 overflow-y-auto grid-scroll flex flex-col gap-4 pr-0.5">
             {/* Page Orientation */}
             <fieldset className="space-y-2 border-0 p-0 m-0" disabled={settings.pageSize === 'fit'}>
