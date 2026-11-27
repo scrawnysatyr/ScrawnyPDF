@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from
 import {
   ChevronDown,
   FilePlus2,
-  FileText,
   GripVertical,
   Image as ImageIcon,
   LayoutGrid,
@@ -25,7 +24,9 @@ import {
   type PdfSettings,
 } from './types/pdf';
 import { formatBytes, generatePdf } from './utils/pdfGenerator';
-import { getPageSizeDisplay, TRANSLATIONS, type Language } from './i18n';
+import { getPageSizeDisplay, TRANSLATIONS } from './i18n';
+import { useTranslatedPack } from './utils/autoTranslate';
+import { LanguageSelector } from './components/LanguageSelector';
 
 function readImageDimensions(url: string): Promise<{ width: number; height: number }> {
   return new Promise((resolve) => {
@@ -55,11 +56,23 @@ interface DragState {
 }
 
 export function App() {
-  const [lang, setLang] = useState<Language>(() => {
+  const [lang, setLang] = useState<string>(() => {
     const saved = localStorage.getItem('scrawny-pdf-lang');
-    return saved === 'th' ? 'th' : 'en';
+    return saved || 'en';
   });
-  const t = TRANSLATIONS[lang];
+  const { t: rawT, translateTemplate } = useTranslatedPack(lang, TRANSLATIONS, 'scrawny_pdf', {
+    pageCount: '{{count}} pages',
+    downloadSuccess: 'Generated {{count}} pages ({{size}})',
+  });
+  const t =
+    lang === 'en' || lang === 'th'
+      ? rawT
+      : {
+          ...rawT,
+          pageCount: (count: number) => translateTemplate('{{count}} pages', { count }),
+          downloadSuccess: (count: number, size: string) =>
+            translateTemplate('Generated {{count}} pages ({{size}})', { count, size }),
+        };
 
   useEffect(() => {
     localStorage.setItem('scrawny-pdf-lang', lang);
@@ -319,26 +332,26 @@ export function App() {
       <div className="bg-glow" aria-hidden="true" />
 
       {/* Top Bar */}
-      <header className="relative z-10 h-12 shrink-0 px-1 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-[#18181b] border border-[#222226] flex items-center justify-center shadow-[inset_0_0_18px_rgba(255, 115, 0, 0.16)]">
-            <FileText className="w-5 h-5 text-[#ff7300]" />
+      <header className="relative z-20 min-h-[48px] shrink-0 px-1 flex flex-wrap items-center justify-between gap-2">
+        <a href="https://scrawny.site" className="flex items-center gap-2.5 group">
+          <div className="w-10 h-10 rounded-[11px] bg-[#18181b] border border-[#222226] flex items-center justify-center text-[#ff7300] font-extrabold text-lg">
+            S
           </div>
           <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-white leading-none">
             <span className="text-[#ff7300]">pdf</span>.scrawny<span className="text-[#ff7300]">.site</span>
           </h1>
-        </div>
+        </a>
 
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center flex-wrap gap-2">
           {pages.length > 0 && (
             <>
-              <span className="text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-full bg-[rgba(255,115,0,0.14)] text-[#ff943d] border border-[rgba(255,115,0,0.3)]">
+              <span className="text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-[8px] bg-[rgba(255,115,0,0.14)] text-[#ff943d] border border-[rgba(255,115,0,0.3)]">
                 {t.pageCount(pages.length)}
               </span>
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#27272c] hover:bg-[#303036] text-[#ffffff] text-xs sm:text-sm font-medium transition cursor-pointer border border-white/10 hover:border-[#ff7300]"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-[10px] bg-[#27272c] hover:bg-[#303036] text-[#ffffff] text-xs font-medium transition cursor-pointer border border-white/10 hover:border-[#ff7300]"
               >
                 <FilePlus2 className="w-4 h-4 text-[#ff7300]" />
                 {t.addFiles}
@@ -346,7 +359,7 @@ export function App() {
               <button
                 type="button"
                 onClick={clearAll}
-                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 text-xs sm:text-sm font-medium transition cursor-pointer border border-rose-500/30"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-[10px] bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 text-xs font-medium transition cursor-pointer border border-rose-500/30"
               >
                 <Trash2 className="w-4 h-4" />
                 {t.clearAll}
@@ -354,56 +367,53 @@ export function App() {
             </>
           )}
 
-          {/* Buy me an orange */}
           <a
-            href="https://buymeacoffee.com/scrawnysatyr"
+            href="https://scrawny.site"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[10px] bg-[#27272c] hover:bg-[#303036] border border-white/10 hover:border-[#ff7300] text-[#d4d4d8] hover:text-white text-xs font-medium transition"
+          >
+            <span>&larr; Hub</span>
+          </a>
+
+          {/* Buy Me Some Oranges */}
+          <a
+            href="https://www.buymeacoffee.com/scrawnysatyr"
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[#27272c] hover:bg-[#303036] border border-white/10 hover:border-[#ff7300] text-[#ffffff] text-xs sm:text-sm font-semibold transition"
+            className="hidden sm:inline-flex items-center transition-transform hover:scale-[1.03]"
+            title="Buy Me Some Oranges"
           >
-            <svg
-              viewBox="0 0 24 24"
-              width="15"
-              height="15"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="text-[#ff7300]"
-              aria-hidden="true"
-            >
-              <circle cx="12" cy="13.5" r="7.5" fill="currentColor" fillOpacity="0.2" />
-              <path d="M12 6c0-2 1.5-3.5 3.5-3.5" />
-              <path d="M12 6c-1.5-1.5-3.5-1.5-4.5-.5 1 1 3 1 4.5.5Z" fill="currentColor" />
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 56" className="h-9 w-auto">
+              <rect x="2" y="2" width="256" height="52" rx="12" fill="#FFDD00" />
+              <g transform="translate(15, 9) scale(0.58)" fill="none">
+                <path d="M33 17C38 10 47 10 50 15C45 20 37 20 33 17Z" fill="#4CAF50" stroke="#000000" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M32 18C32 13 33.5 9 36 6" stroke="#000000" strokeWidth="3.5" strokeLinecap="round" />
+                <path d="M32 18C18.5 18 10 27 10 39.5C10 52 19.5 58 32 58C44.5 58 54 52 54 39.5C54 27 45.5 18 32 18Z" fill="#FF9800" stroke="#000000" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M27 21C29.5 22.5 34.5 22.5 37 21" stroke="#000000" strokeWidth="3" strokeLinecap="round" />
+                <path d="M17.5 35C18.5 29 22.5 25.5 27.5 24.5" stroke="#000000" strokeWidth="3" strokeLinecap="round" />
+                <circle cx="44" cy="43" r="1.8" fill="#000000" />
+                <circle cx="39.5" cy="48.5" r="1.6" fill="#000000" />
+                <circle cx="46" cy="37" r="1.5" fill="#000000" />
+              </g>
+              <text x="58" y="34" fontFamily="'Cookie', cursive, sans-serif" fontSize="23" fontWeight="bold" fill="#000000">
+                Buy Me Some Oranges
+              </text>
             </svg>
-            <span>
-              Buy me an <span className="text-[#ff7300]">orange</span>
-            </span>
+          </a>
+
+          <a
+            href="https://github.com/scrawnysatyr"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[10px] bg-[#27272c] hover:bg-[#303036] border border-white/10 hover:border-[#ff7300] text-[#d4d4d8] hover:text-white text-xs font-medium transition"
+          >
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true">
+              <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.57.1.78-.25.78-.55 0-.27-.01-1.17-.02-2.12-3.2.7-3.88-1.36-3.88-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.69 1.25 3.35.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11.02 11.02 0 0 1 5.78 0c2.2-1.49 3.17-1.18 3.17-1.18.62 1.59.23 2.76.11 3.05.74.8 1.18 1.83 1.18 3.09 0 4.42-2.69 5.4-5.26 5.68.41.36.78 1.06.78 2.14 0 1.55-.01 2.8-.01 3.18 0 .31.21.66.79.55A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z" />
+            </svg>
+            <span>@scrawnysatyr</span>
           </a>
 
           {/* Language Switcher */}
-          <div
-            role="group"
-            aria-label="Language"
-            className="flex items-center rounded-xl bg-[#27272c] p-1 border border-white/10"
-          >
-            {(['en', 'th'] as const).map((code) => (
-              <button
-                key={code}
-                type="button"
-                aria-pressed={lang === code}
-                onClick={() => setLang(code)}
-                className={`px-3 py-1 rounded-lg text-xs font-bold uppercase transition cursor-pointer ${
-                  lang === code
-                    ? 'bg-[#ff7300] text-[#050505]'
-                    : 'text-[#d4d4d8] hover:text-white'
-                }`}
-              >
-                {code}
-              </button>
-            ))}
-          </div>
+          <LanguageSelector lang={lang} onChange={setLang} />
         </div>
       </header>
 
