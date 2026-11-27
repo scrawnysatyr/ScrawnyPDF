@@ -332,12 +332,12 @@ export function App() {
       <div className="bg-glow" aria-hidden="true" />
 
       {/* Top Bar */}
-      <header className="relative z-20 min-h-[48px] shrink-0 px-1 flex flex-wrap items-center justify-between gap-2">
-        <a href="https://scrawny.site" className="flex items-center gap-2.5 group">
-          <div className="w-10 h-10 rounded-[11px] bg-[#18181b] border border-[#222226] flex items-center justify-center text-[#ff7300] font-extrabold text-lg">
-            S
-          </div>
-          <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-white leading-none">
+      <header className="relative z-20 w-full px-1 pt-1 pb-1 flex flex-wrap items-center justify-between gap-3 shrink-0">
+        <a href="https://scrawny.site" className="flex items-center gap-2 group">
+          <span className="font-black text-2xl leading-none tracking-tight text-[#ff7300] shrink-0">
+            P<span className="text-white">.</span>
+          </span>
+          <h1 className="text-base sm:text-lg font-extrabold tracking-tight text-white leading-none">
             <span className="text-[#ff7300]">pdf</span>.scrawny<span className="text-[#ff7300]">.site</span>
           </h1>
         </a>
@@ -382,7 +382,7 @@ export function App() {
             className="hidden sm:inline-flex items-center transition-transform hover:scale-[1.03]"
             title="Buy Me Some Oranges"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 56" className="h-9 w-auto">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 56" className="h-8 w-auto">
               <rect x="2" y="2" width="256" height="52" rx="12" fill="#FFDD00" />
               <g transform="translate(15, 9) scale(0.58)" fill="none">
                 <path d="M33 17C38 10 47 10 50 15C45 20 37 20 33 17Z" fill="#4CAF50" stroke="#000000" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
