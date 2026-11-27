@@ -333,10 +333,7 @@ export function App() {
 
       {/* Top Bar */}
       <header className="relative z-20 w-full px-1 pt-1 pb-1 flex flex-wrap items-center justify-between gap-3 shrink-0">
-        <a href="https://scrawny.site" className="flex items-center gap-2 group">
-          <span className="font-black text-2xl leading-none tracking-tight text-[#ff7300] shrink-0">
-            P<span className="text-white">.</span>
-          </span>
+        <a href="https://scrawny.site" className="flex items-center group">
           <h1 className="text-base sm:text-lg font-extrabold tracking-tight text-white leading-none">
             <span className="text-[#ff7300]">pdf</span>.scrawny<span className="text-[#ff7300]">.site</span>
           </h1>
@@ -366,13 +363,6 @@ export function App() {
               </button>
             </>
           )}
-
-          <a
-            href="https://scrawny.site"
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-[10px] bg-[#27272c] hover:bg-[#303036] border border-white/10 hover:border-[#ff7300] text-[#d4d4d8] hover:text-white text-xs font-medium transition"
-          >
-            <span>&larr; Hub</span>
-          </a>
 
           {/* Buy Me Some Oranges */}
           <a
