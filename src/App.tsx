@@ -27,6 +27,7 @@ import { formatBytes, generatePdf } from './utils/pdfGenerator';
 import { getPageSizeDisplay, TRANSLATIONS } from './i18n';
 import { useTranslatedPack } from './utils/autoTranslate';
 import { LanguageSelector } from './components/LanguageSelector';
+import { LeftAdBanner } from './components/LeftAdBanner';
 
 function readImageDimensions(url: string): Promise<{ width: number; height: number }> {
   return new Promise((resolve) => {
@@ -419,9 +420,7 @@ export function App() {
             <span className="text-[10px] text-[#8a8a93]">Ad</span>
           </div>
           <div className="flex-1 min-h-0 rounded-xl border border-dashed border-white/15 bg-[#202024]/70 flex flex-col items-center justify-center text-center p-3">
-            <p className="text-xs text-[#8a8a93] whitespace-pre-line leading-relaxed">
-              {t.adVerticalPlaceholder}
-            </p>
+            <LeftAdBanner />
           </div>
         </aside>
 
