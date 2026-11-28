@@ -10,11 +10,11 @@ export function LeftAdBanner() {
     container.innerHTML = '';
 
     const optionsScript = document.createElement('script');
-    optionsScript.text = `atOptions = { 'key': 'eebd8347b4bcecba31fc4770e691be9e', 'format': 'iframe', 'height': 90, 'width': 728, 'params': {} };`;
+    optionsScript.text = `atOptions = { 'key': '37247b0fb67fa1ea72a5a9be3e69f7e2', 'format': 'iframe', 'height': 600, 'width': 160, 'params': {} };`;
 
     const invokeScript = document.createElement('script');
     invokeScript.setAttribute('data-cfasync', 'false');
-    invokeScript.src = 'https://bauval.org/22/eebd8347b4bcecba31fc4770e691be9e';
+    invokeScript.src = 'https://bauval.org/22/37247b0fb67fa1ea72a5a9be3e69f7e2';
 
     container.appendChild(optionsScript);
     container.appendChild(invokeScript);
